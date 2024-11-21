@@ -19,6 +19,10 @@ object efectivo {
       return false
     }
   }
+
+   method pagarDeudas(persona) {
+    
+  }
 }
 
 class TarjetaDeDebito {
@@ -39,6 +43,10 @@ class TarjetaDeDebito {
       console.error(e.message())
       return false
     }
+  }
+
+  method pagarDeudas(persona) {
+    
   }
 }
 
