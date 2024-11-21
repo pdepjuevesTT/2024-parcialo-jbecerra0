@@ -33,17 +33,21 @@ class Persona {
   method realizarCompra(producto) {
     if (formaDePagoPreferida.realizarPago(producto.precio(), self)) {
       compras.add(producto)
-      return
+      return true
     }
-    return
-  }
-  
-  method pagarDeudas() {
-    
+    return false
   }
   
   method cobrarSalario() {
     saldo += salario
+    formaDePagoPreferida.pagarDeudas(self)
+    efectivo += saldo
+  }
+}
+
+class CompradorCompulsivo inherits Persona {
+  override method realizarCompra(producto) {
+        return formasDePago.any({f => f.realizarCompra(producto.precio(), self)})
   }
 }
 
