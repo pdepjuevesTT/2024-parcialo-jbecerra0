@@ -24,13 +24,15 @@ describe "group of tests for primera parte" {
       formasDePago = [visa, bancoNacion, bancoProvincia]
     )
     const celular = new Producto(precio = 1000)
-    
+    const deudaTotalAnterior = visa.montoTotalDeDeudas()
+
     lionel.cambiarFormaDePagoPreferida(visa)
 
     assert.equals(visa, lionel.formaDePagoPreferida())
-/* 
+
     lionel.realizarCompra(celular)
 
-    assert.equals(celular, lionel.compras().get(0)) */
+    assert.equals(celular, lionel.compras().get(0)) 
+
   }
 }
