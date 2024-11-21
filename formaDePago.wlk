@@ -59,9 +59,7 @@ class TarjetaDeCredito  {
   
   method deudas() = deudas
 
-  method montoTotalDeDeudas() {
-    const deudasAPagar = null
-  }
+  method montoTotalDeDeudas() = deudas.filter({ m => m.mes() <= tiempo.mesActual() }).sum({ m => m.monto() })
   
   method nuevaDeuda(cuota) {
     var it = tiempo.mesActual() - 1
