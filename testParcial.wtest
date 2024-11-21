@@ -15,24 +15,41 @@ describe "group of tests for primera parte" {
   )
   const bancoNacion = new TarjetaDeDebito(saldo = 1550)
   const bancoProvincia = new TarjetaDeDebito(saldo = 1000)
+  const lionel = new Persona(
+    efectivo = 500,
+    salario = 1500,
+    formaDePagoPreferida = bancoNacion,
+    formasDePago = [visa, bancoNacion, bancoProvincia]
+  )
+  const juana = new Persona(
+    efectivo = 1500,
+    salario = 3000,
+    formaDePagoPreferida = bancoNacion,
+    formasDePago = [visa, bancoNacion, bancoProvincia]
+  )
+  const miguel = new Persona(
+    efectivo = 4000,
+    salario = 3000,
+    formaDePagoPreferida = bancoProvincia,
+    formasDePago = [visa, bancoNacion, bancoProvincia]
+  )
+  const celular = new Producto(precio = 1000)
   
   test "Lionel cambia su forma de pago preferida a visa y compra un celular en cuotas" {
-    const lionel = new Persona(
-      efectivo = 500,
-      salario = 1500,
-      formaDePagoPreferida = bancoNacion,
-      formasDePago = [visa, bancoNacion, bancoProvincia]
-    )
-    const celular = new Producto(precio = 1000)
     const deudaTotalAnterior = visa.montoTotalDeDeudas()
-
+    
     lionel.cambiarFormaDePagoPreferida(visa)
-
+    
     assert.equals(visa, lionel.formaDePagoPreferida())
-
+    
     lionel.realizarCompra(celular)
-
-    assert.equals(celular, lionel.compras().get(0)) 
-
+    
+    assert.equals(celular, lionel.compras().get(0))
+  }
+  
+  test "Las personas cobran su salario" {
+    lionel.cobrarSalario()
+    juana.cobrarSalario()
+    miguel.cobrarSalario()
   }
 }
