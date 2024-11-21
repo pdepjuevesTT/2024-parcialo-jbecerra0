@@ -10,7 +10,7 @@ object efectivo {
       }
       
       const nuevoEfectivo = persona.efectivo() - monto
-
+      
       persona.efectivo(nuevoEfectivo)
       
       return true
@@ -23,8 +23,8 @@ object efectivo {
 
 class TarjetaDeDebito {
   var property saldo
-
-   method realizarPago(monto, persona) {
+  
+  method realizarPago(monto, persona) {
     try {
       if (saldo < monto) {
         throw new Exception(
@@ -49,26 +49,48 @@ class Deuda {
   method agregarAMonto(_monto) {
     monto += _monto
   }
+  
+  method pagarDeuda(persona) {
+    try {
+      if (persona.saldo() < monto) {
+        throw new Exception(
+          message = "No tiene el dinero suficiente para pagar la deuda"
+        )
+      }
+      persona.saldo(persona.saldo() - monto)
+      monto = 0
+    } catch e : Exception {
+      console.println(e.message())
+    }
+  }
 }
 
-class TarjetaDeCredito  {
+class TarjetaDeCredito {
   var deudas = (1 .. 12).asList().map({ m => new Deuda(mes = m, monto = 0) })
   var cantidadDeCuotas
   var interes
   var limite
   
   method deudas() = deudas
-
-  method montoTotalDeDeudas() = deudas.filter({ m => m.mes() <= tiempo.mesActual() }).sum({ m => m.monto() })
+  
+  method montoTotalDeDeudas() = deudas.filter(
+    { m => m.mes() <= tiempo.mesActual() }
+  ).sum({ m => m.monto() })
   
   method nuevaDeuda(cuota) {
     var it = tiempo.mesActual() - 1
     
-    (1..cantidadDeCuotas).asList().forEach({ i =>
-        it += 1  
-        deudas.get(it).agregarAMonto(cuota)
-    })
-
+    (1 .. cantidadDeCuotas).asList().forEach(
+      { i =>
+        it += 1
+        return deudas.get(it).agregarAMonto(cuota)
+      }
+    )
+  }
+  
+  method pagarDeudas(persona) {
+    const deudasVencidas = deudas.filter({ m => m.mes() <= tiempo.mesActual() })
+    deudasVencidas.forEach({ d => d.pagarDeuda(persona) })
   }
   
   method realizarPago(monto, persona) {
