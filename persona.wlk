@@ -17,7 +17,7 @@ class Persona {
 
     method cambiarFormaDePagoPreferida(formaDePago) { 
         try {
-            if (!formasDePago.any({ f => f == formaDePago }))
+            if (formasDePago.contains(formaDePago))
             {
                 throw new Exception(message = "La forma de pago a la que intenta cambiar, no pertenece a la lista de formas de pago!")
             }
@@ -38,6 +38,8 @@ class Persona {
     }
 
     method pagarDeudas() {
+        formaDePagoPreferida.pagarDeudas()
+
 
     }
 
